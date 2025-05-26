@@ -38,20 +38,14 @@ pipeline{
 
         stage("build docker image"){
             steps {
-                script {
-                        def dockerx = new src.org.iti.Docker()
-                        dockerx.build(env.DEFAULT_IMAGE, params.VERSION)
-                }
+                    dockerBuild(env.DEFAULT_IMAGE, params.VERSION)
             }
         }
 
         stage("push docker image"){
             steps {
-                script {
-                        def dockerx = new src.org.iti.Docker()
-                        dockerx.login(env.DOCKER_USR, env.DOCKER_PSW)
-                        dockerx.push(env.DEFAULT_IMAGE, params.VERSION)
-                }
+                    dockerLogin(env.DOCKER_USR, env.DOCKER_PSW)
+                    dockerPush(env.DEFAULT_IMAGE, params.VERSION)
             }
         }
     }
