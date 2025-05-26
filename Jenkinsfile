@@ -39,8 +39,8 @@ pipeline{
         stage("build docker image"){
             steps {
                 script {
-                        def docker = new org.iti.Docker()
-                        docker.build(env.DEFAULT_IMAGE, params.VERSION)
+                        def dockerx = new org.iti.Docker()
+                        dockerx.build(env.DEFAULT_IMAGE, params.VERSION)
                 }
             }
         }
@@ -48,9 +48,9 @@ pipeline{
         stage("push docker image"){
             steps {
                 script {
-                        def docker = new org.iti.Docker()
-                        docker.login(env.DOCKER_USR, env.DOCKER_PSW)
-                        docker.push(env.DEFAULT_IMAGE, params.VERSION)
+                        def dockerx = new org.iti.Docker()
+                        dockerx.login(env.DOCKER_USR, env.DOCKER_PSW)
+                        dockerx.push(env.DEFAULT_IMAGE, params.VERSION)
                 }
             }
         }
