@@ -53,18 +53,13 @@ pipeline{
         }
     }
 
-    post{
+    post {
         always {
-            node {
-                sh "echo 'Clean the Workspace'"
-                cleanWs()
-            }
+            echo 'Clean the Workspace'
+            cleanWs()
         }
-
         failure {
-            node {
-                sh "echo 'failed'"
-            }
+            echo 'failed'
         }
     }
 }
