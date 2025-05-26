@@ -55,15 +55,15 @@ pipeline{
 
     post{
         always {
-            step {
-                "echo 'Clean the Workspace'"
+            node {
+                sh "echo 'Clean the Workspace'"
                 cleanWs()
             }
         }
-        
+
         failure {
-            step {
-                "echo 'failed'"
+            node {
+                sh "echo 'failed'"
             }
         }
     }
