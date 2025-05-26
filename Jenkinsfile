@@ -10,7 +10,7 @@ pipeline{
     }
 
     environment{
-        DOCKER = credentials('dockerhub-cred')
+        DOCKER = credentials('docker-hub-login')
         DEFAULT_IMAGE = "hk2802/java-mvn-sample"
     }
 
@@ -55,11 +55,11 @@ pipeline{
 
     post{
         always{
-            sh "echo 'Clean the Workspace'"
+            "echo 'Clean the Workspace'"
             cleanWs()
         }
         failure {
-            sh "echo 'failed'"
+            "echo 'failed'"
         }
     }
 }
