@@ -1,17 +1,18 @@
-@Library('libx')_
+@Library('jenkins-shared-lib-1') _
 
 pipeline{
     agent {
-        label 'agent-0'
+        label 'agent-1'
     }
 
-    tools{
+    tools {
         jdk "java-8"
     }
 
     environment{
         DOCKER_USER = credentials('dockerhub-user')
         DOCKER_PASS = credentials('dockerhub-password')
+        DEFAULT_IMAGE = "hk2802/java-mvn-sample"
     }
 
     parameters {
@@ -23,35 +24,32 @@ pipeline{
         stage("VM info"){
             steps{
                 script{
-                    def VM_IP = vmIp()
-                    sh "echo ${VM_IP}"
+                    echo "Agent IP: ${vmIp()}"
                 }
             }
         }
+
         stage("Build java app"){
             steps{
-                script{
-                    sayHello "ITI"
-                }
-                sh "mvn clean package install -Dmaven.test.skip=${TEST}"
+                sayHello 'ITI'
+                mvnBuild(params.TEST)
             }
         }
-        stage("build java app image"){
+
+        stage("build docker image"){
             steps{
-                script{
-                    def dockerx = new org.iti.docker()
-                    dockerx.build("java", "${VERSION}")
-                }
-                sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} "
+                dockerBuild image: DEFAULT_IMAGE,
+                            tag:   params.VERSION
             }
         }
-        stage("push java app image"){
+
+        stage("push docker image"){
             steps{
-                script{
-                    def dockerx = new org.iti.docker()
-                    dockerx.login("${DOCKER_USER}", "${DOCKER_PASS}")
-                    dockerx.push("${DOCKER_USER}", "${DOCKER_PASS}")
-                }
+                dockerLogin docker_user: "${DOCKER_USER}",
+                            docker_pass: "${DOCKER_PASS}"
+
+                dockerPush  image: DEFAULT_IMAGE,
+                            tag:   params.VERSION
             }
         }
     }
