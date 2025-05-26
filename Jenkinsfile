@@ -46,7 +46,7 @@ pipeline{
         stage("push docker image"){
             steps {
                     dockerLogin(env.DOCKER_USR, env.DOCKER_PSW)
-                    dockerPush(env.DEFAULT_IMAGE, params.VERSION)
+                    dockerPush(env.DOCKER_USR, env.DOCKER_PSW)
             }
         }
     }
