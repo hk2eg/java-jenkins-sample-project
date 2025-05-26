@@ -38,7 +38,7 @@ pipeline{
 
         stage("build docker image"){
             steps {
-                    dockerBuild(env.DEFAULT_IMAGE, params.VERSION)
+                    dockerBuild("java", params.VERSION)
             }
         }
 
