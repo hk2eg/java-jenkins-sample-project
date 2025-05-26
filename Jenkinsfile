@@ -1,5 +1,4 @@
 @Library('jenkins-shared-lib-1') _
-import org.iti.Docker
 
 pipeline{
     agent {
