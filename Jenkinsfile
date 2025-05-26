@@ -39,6 +39,7 @@ pipeline{
         stage("build docker image"){
             steps {
                     dockerBuild("java", params.VERSION)
+                    dockerLogin(env.DOCKER_USR, env.DOCKER_PSW)
             }
         }
 
