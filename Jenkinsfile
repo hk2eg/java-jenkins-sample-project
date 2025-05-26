@@ -39,14 +39,14 @@ pipeline{
         stage("build docker image"){
             steps {
                     dockerLogin(env.DOCKER_USR, env.DOCKER_PSW)
-                    dockerBuild("java", params.VERSION)
+                    dockerBuild(env.DEFAULT_IMAGE, params.VERSION)
             }
         }
 
         stage("push docker image"){
             steps {
                     dockerLogin(env.DOCKER_USR, env.DOCKER_PSW)
-                    dockerPush(env.DOCKER_USR, env.DOCKER_PSW)
+                    dockerPush(env.DEFAULT_IMAGE, params.VERSION)
             }
         }
     }
