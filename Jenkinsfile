@@ -1,4 +1,5 @@
 @Library('jenkins-shared-lib-1') _
+import org.iti.Docker
 
 pipeline{
     agent {
@@ -37,19 +38,31 @@ pipeline{
         }
 
         stage("build docker image"){
-            steps{
-                dockerBuild image: DEFAULT_IMAGE,
-                            tag:   params.VERSION
+            steps {
+                script {
+                        def docker = new Docker(
+                        image: env.DEFAULT_IMAGE,
+                        tag: params.VERSION
+                    )
+                    docker.steps = this
+                    docker.build()
+                }
             }
         }
 
         stage("push docker image"){
-            steps{
-                dockerLogin docker_user: env.DOCKER_USR,
-                            docker_pass: env.DOCKER_PSW
-
-                dockerPush  image: DEFAULT_IMAGE,
-                            tag:   params.VERSION
+            steps {
+                script {
+                        def docker = new Docker(
+                        docker_user: env.DOCKER_USR,
+                        docker_pass: env.DOCKER_PSW,
+                        image: env.DEFAULT_IMAGE,
+                        tag: params.VERSION
+                    )
+                    docker.steps = this
+                    docker.login()
+                    docker.push()
+                }
             }
         }
     }
