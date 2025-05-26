@@ -54,12 +54,17 @@ pipeline{
     }
 
     post{
-        always{
-            "echo 'Clean the Workspace'"
-            cleanWs()
+        always {
+            step {
+                "echo 'Clean the Workspace'"
+                cleanWs()
+            }
         }
+        
         failure {
-            "echo 'failed'"
+            step {
+                "echo 'failed'"
+            }
         }
     }
 }
