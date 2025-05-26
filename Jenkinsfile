@@ -10,8 +10,7 @@ pipeline{
     }
 
     environment{
-        DOCKER_USER = credentials('dockerhub-user')
-        DOCKER_PASS = credentials('dockerhub-password')
+        DOCKER = credentials('dockerhub-cred')
         DEFAULT_IMAGE = "hk2802/java-mvn-sample"
     }
 
@@ -45,8 +44,8 @@ pipeline{
 
         stage("push docker image"){
             steps{
-                dockerLogin docker_user: "${DOCKER_USER}",
-                            docker_pass: "${DOCKER_PASS}"
+                dockerLogin docker_user: env.DOCKER_USR,
+                            docker_pass: env.DOCKER_PSW
 
                 dockerPush  image: DEFAULT_IMAGE,
                             tag:   params.VERSION
