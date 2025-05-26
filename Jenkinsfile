@@ -1,6 +1,6 @@
 @Library('jenkins-shared-lib-1') _
 
-org.iti.Jpipeline.run([
+org.iti.Jpipeline.executePipeline([
     script: this,
     docker_user: env.DOCKER_USR,
     docker_pass: env.DOCKER_PSW,
